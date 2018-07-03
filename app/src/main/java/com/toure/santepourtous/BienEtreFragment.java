@@ -1,7 +1,10 @@
 package com.toure.santepourtous;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +21,7 @@ import com.toure.santepourtous.adapter.BienetreAdapter;
  * Use the {@link BienEtreFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BienEtreFragment extends Fragment {
+public class BienEtreFragment extends Fragment implements ItemOnclickHandler {
 
     private static final String LOG = BienEtreFragment.class.getSimpleName();
 
@@ -55,16 +58,16 @@ public class BienEtreFragment extends Fragment {
         if (getArguments() != null) {
             mFragPosition = getArguments().getInt(ARG_FRAGMENT_POSITION);
         }
-        mBienetreAdapter = new BienetreAdapter();
+        mBienetreAdapter = new BienetreAdapter(this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bien_etre, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.bien_etre_recycler_view);
+        mRecyclerView = view.findViewById(R.id.bien_etre_recycler_view);
          /*
          * A LinearLayoutManager is responsible for measuring and positioning item views within a
          * RecyclerView into a linear list. This means that it can produce either a horizontal or
@@ -96,4 +99,10 @@ public class BienEtreFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onClick() {
+        Context context = getContext();
+        Intent intentToStartDetailActivity = new Intent(context, DetailActivity.class);
+        startActivity(intentToStartDetailActivity);
+    }
 }

@@ -26,4 +26,8 @@ dependencies {
     compile 'com.android.support:support-v4:27.0.2'
     compile 'com.android.support:design:27.0.2'
     compile 'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.google.firebase:firebase-core:16.0.0'
+    compile 'com.google.firebase:firebase-database:16.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

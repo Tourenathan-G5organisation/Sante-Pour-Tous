@@ -9,5 +9,9 @@ package com.toure.santepourtous;
  * The interface that receives onClick messages.
  */
 public interface ItemOnclickHandler {
+
+    /**
+     * OnClick method use to capture the click event
+     */
     void onClick();
 }

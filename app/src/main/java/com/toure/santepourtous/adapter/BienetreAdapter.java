@@ -7,12 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.toure.santepourtous.ItemOnclickHandler;
 import com.toure.santepourtous.R;
+
+import java.util.Arrays;
 
 /**
  * Created by Toure Nathan on 6/20/2018.
  */
 public class BienetreAdapter extends RecyclerView.Adapter<BienetreAdapter.ViewHolder> {
+
+    private static final String LOG_TAC = BienetreAdapter.class.getSimpleName();
+
+    final private ItemOnclickHandler mClickHandler;
 
     String[] listBienEtre = {
             "Nettoyage du colon",
@@ -25,8 +32,9 @@ public class BienetreAdapter extends RecyclerView.Adapter<BienetreAdapter.ViewHo
             "Amelioration de la vue",
             "Prendre soin des cheveux",};
 
-    public BienetreAdapter() {
-
+    public BienetreAdapter(ItemOnclickHandler clickHandler) {
+        Arrays.sort(listBienEtre);
+        mClickHandler = clickHandler;
     }
 
     void setData() {
@@ -54,13 +62,20 @@ public class BienetreAdapter extends RecyclerView.Adapter<BienetreAdapter.ViewHo
     }
 
     // Provide a reference to the views for each data item
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView itemTitle;
 
         public ViewHolder(View itemView) {
             super(itemView);
             itemTitle = itemView.findViewById(R.id.item_title);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getAdapterPosition();
+            mClickHandler.onClick();
         }
     }
 }
