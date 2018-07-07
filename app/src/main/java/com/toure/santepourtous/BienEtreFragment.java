@@ -100,9 +100,10 @@ public class BienEtreFragment extends Fragment implements ItemOnclickHandler {
     }
 
     @Override
-    public void onClick() {
+    public void onClick(int itemId) {
         Context context = getContext();
         Intent intentToStartDetailActivity = new Intent(context, DetailActivity.class);
+        intentToStartDetailActivity.putExtra(DetailActivityFragment.ITEM_ID_KEY, itemId);
         startActivity(intentToStartDetailActivity);
     }
 }

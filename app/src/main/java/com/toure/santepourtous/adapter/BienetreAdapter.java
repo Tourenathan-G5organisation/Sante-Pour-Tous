@@ -75,7 +75,7 @@ public class BienetreAdapter extends RecyclerView.Adapter<BienetreAdapter.ViewHo
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            mClickHandler.onClick();
+            mClickHandler.onClick(1);
         }
     }
 }

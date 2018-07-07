@@ -14,81 +14,88 @@
         tools:context="com.toure.santepourtous.DetailActivityFragment">
 
         <TextView
+            android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="Nettoyage de Froie"
             android:textColor="@color/black"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Nettoyage de Froie" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <!-- <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Ingrédient"
-                android:textColor="@color/colorPrimary"
-                android:textSize="27sp" />
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="30dp"
+                 android:text="Ingrédient"
+                 android:textColor="@color/colorPrimary"
+                 android:textSize="27sp" />
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+             <HorizontalScrollView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:gravity="center"
+                     android:orientation="horizontal">
 
-                    <include layout="@layout/ingredient_tem_layout" />
+                     <include layout="@layout/ingredient_tem_layout" />
 
-                    <include layout="@layout/ingredient_tem_layout" />
+                     <include layout="@layout/ingredient_tem_layout" />
 
-                    <include layout="@layout/ingredient_tem_layout" />
+                     <include layout="@layout/ingredient_tem_layout" />
 
-                    <include layout="@layout/ingredient_tem_layout" />
+                     <include layout="@layout/ingredient_tem_layout" />
 
-                </LinearLayout>
-            </HorizontalScrollView>
+                 </LinearLayout>
+             </HorizontalScrollView>
 
 
-        </LinearLayout>
+         </LinearLayout>-->
 
 
         <TextView
+            android:id="@+id/item_astuce_titre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Astuce"
+            android:text="@string/astuce"
             android:textColor="@color/colorPrimary"
             android:textSize="27sp" />
 
         <TextView
+            android:id="@+id/item_astuce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
-            android:text="Ecraser et mélanger le ginga, ail et oignon  et boire demi verre matin (a  jeun) et soir (au coucher)"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Ecraser et mélanger le ginga, ail et oignon  et boire demi verre matin (a  jeun) et soir (au coucher)" />
 
 
         <TextView
+            android:id="@+id/item_conseille_titre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Consiel"
+            android:text="@string/conseil"
             android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:visibility="gone" />
 
         <TextView
+            android:id="@+id/item_conseille"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Consiel text Consiel text Consiel text Consiel text Consiel text"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="gone"
+            tools:text="Consiel text Consiel text Consiel text Consiel text Consiel text" />
 
     </LinearLayout>
 </ScrollView>

@@ -11,7 +11,7 @@ package com.toure.santepourtous;
 public interface ItemOnclickHandler {
 
     /**
-     * OnClick method use to capture the click event
+     * OnClick method use to capture the click event using theid of the clicked item
      */
-    void onClick();
+    void onClick(int id);
 }

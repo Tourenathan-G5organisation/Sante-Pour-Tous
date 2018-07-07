@@ -80,7 +80,7 @@ public class MaladieAdapter extends RecyclerView.Adapter<MaladieAdapter.ViewHold
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            mClickHandler.onClick();
+            mClickHandler.onClick(mMaladieItems.get(adapterPosition).getId());
         }
     }
 }

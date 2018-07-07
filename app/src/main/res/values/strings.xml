@@ -10,4 +10,6 @@
     <string name="title_activity_detail">D&#233;tail</string>
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
+    <string name="astuce">Astuce</string>
+    <string name="conseil">Consiel</string>
 </resources>
