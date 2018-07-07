@@ -209,6 +209,13 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mMaladieDataReference.removeEventListener(mChildEventListener);
+
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         LiveData<List<SantePourTous>> maladieItems = mDb.santePourTousDao().getAllMaladieItems();
