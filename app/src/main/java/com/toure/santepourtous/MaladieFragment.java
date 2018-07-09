@@ -78,12 +78,12 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
         mMaladieAdapter = new MaladieAdapter(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMaladieDataReference = mFirebaseDatabase.getReference().child(DATA_REFERENCE_KEY);
-
+        mMaladieDataReference.keepSynced(true);
         mDb = AppDatabase.getsInstance(getContext().getApplicationContext());
 
         mChildEventListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildAdded(@NonNull final DataSnapshot dataSnapshot, @Nullable final String s) {
                 final SantePourTous dbItem = dataSnapshot.getValue(SantePourTous.class);
                 if (dbItem != null) {
                     dbItem.setFirebaseId(dataSnapshot.getKey());
@@ -92,6 +92,9 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
                         @Override
                         public void run() {
                             final long id = mDb.santePourTousDao().insert(dbItem);
+                            if (id <= -1) {
+                                onChildChanged(dataSnapshot, s);
+                            }
                             Log.d(LOG_TAC, "New Item inserted");
                         }
                     });
@@ -103,7 +106,7 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
             public void onChildChanged(@NonNull final DataSnapshot dataSnapshot, @Nullable String s) {
                 final SantePourTous item = dataSnapshot.getValue(SantePourTous.class);
                 final LiveData<SantePourTous> dbItem = mDb.santePourTousDao()
-                        .getMaladieItemByFirebaseId(dataSnapshot.getKey());
+                        .getSantePourTousByFirebaseId(dataSnapshot.getKey());
                 dbItem.observe(MaladieFragment.this, new Observer<SantePourTous>() {
                     @Override
                     public void onChanged(@Nullable SantePourTous santePourTous) {
@@ -130,7 +133,7 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 final LiveData<SantePourTous> dbItem = mDb.santePourTousDao()
-                        .getMaladieItemByFirebaseId(dataSnapshot.getKey());
+                        .getSantePourTousByFirebaseId(dataSnapshot.getKey());
                 final SantePourTous item = dataSnapshot.getValue(SantePourTous.class);
 
                 dbItem.observe(MaladieFragment.this, new Observer<SantePourTous>() {

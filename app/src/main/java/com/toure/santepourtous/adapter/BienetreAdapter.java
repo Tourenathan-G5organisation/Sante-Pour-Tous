@@ -2,6 +2,7 @@ package com.toure.santepourtous.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,9 @@ import android.widget.TextView;
 
 import com.toure.santepourtous.ItemOnclickHandler;
 import com.toure.santepourtous.R;
+import com.toure.santepourtous.data.SantePourTous;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Toure Nathan on 6/20/2018.
@@ -20,25 +22,12 @@ public class BienetreAdapter extends RecyclerView.Adapter<BienetreAdapter.ViewHo
     private static final String LOG_TAC = BienetreAdapter.class.getSimpleName();
 
     final private ItemOnclickHandler mClickHandler;
-
-    String[] listBienEtre = {
-            "Nettoyage du colon",
-            "Nettoyage du Froie",
-            "Nettoyage du Rein",
-            "Renforcement du system immunitaire",
-            "Nettoyage du Coeur",
-            "Soigner le mal de nerf et articulation",
-            "Nottage general du corp",
-            "Amelioration de la vue",
-            "Prendre soin des cheveux",};
+    List<SantePourTous> mBienEtreItems;
 
     public BienetreAdapter(ItemOnclickHandler clickHandler) {
-        Arrays.sort(listBienEtre);
         mClickHandler = clickHandler;
     }
 
-    void setData() {
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -52,13 +41,22 @@ public class BienetreAdapter extends RecyclerView.Adapter<BienetreAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemTitle.setText(listBienEtre[position]);
+        SantePourTous item = mBienEtreItems.get(position);
+        holder.itemTitle.setText(item.getTitre());
+        Log.d(LOG_TAC, "bien" + item.getId());
     }
 
     @Override
     public int getItemCount() {
-        //TODO set this to the number of item available for display
-        return 9;
+        return (mBienEtreItems == null) ? 0 : mBienEtreItems.size();
+    }
+
+    public void setData(List<SantePourTous> bienEtreItems) {
+
+        mBienEtreItems = bienEtreItems;
+        Log.d(LOG_TAC, "New set of data passed to bienetre adapter.");
+        notifyDataSetChanged();
+
     }
 
     // Provide a reference to the views for each data item
@@ -75,7 +73,7 @@ public class BienetreAdapter extends RecyclerView.Adapter<BienetreAdapter.ViewHo
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            mClickHandler.onClick(1);
+            mClickHandler.onClick(mBienEtreItems.get(adapterPosition).getId());
         }
     }
 }
