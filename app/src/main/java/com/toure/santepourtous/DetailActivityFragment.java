@@ -14,10 +14,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.toure.santepourtous.data.AppDatabase;
 import com.toure.santepourtous.data.SantePourTous;
+import com.toure.santepourtous.utility.GlideApp;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -34,11 +39,19 @@ public class DetailActivityFragment extends Fragment {
     AppDatabase mDb;
     LiveData<SantePourTous> mSantePourTousItem;
 
+
+    //firebase cloud storage
+    FirebaseStorage mStorage;
+    StorageReference mStorageRef;
+
     TextView itemTitleTextview;
     TextView itemAstuceTitleTextview;
     TextView itemAstuceTextview;
     TextView itemConseilleTextview;
     TextView itemConseilleTitreTextview;
+
+    LinearLayout mIngredientLinearLayout;
+    LinearLayout mIngredientHorizontalLayout;
 
     public DetailActivityFragment() {
     }
@@ -59,6 +72,8 @@ public class DetailActivityFragment extends Fragment {
         itemAstuceTitleTextview = view.findViewById(R.id.item_astuce_titre);
         itemConseilleTextview = view.findViewById(R.id.item_conseille);
         itemConseilleTitreTextview = view.findViewById(R.id.item_conseille_titre);
+        mIngredientLinearLayout = view.findViewById(R.id.ingredient_linear_layout);
+        mIngredientHorizontalLayout = view.findViewById(R.id.ingredient_horizontal_layout);
         return view;
     }
 
@@ -72,6 +87,10 @@ public class DetailActivityFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mDb = AppDatabase.getsInstance(getActivity().getApplicationContext());
+        mStorage = FirebaseStorage.getInstance();
+
+        // Create a storage reference from our app
+        mStorageRef = mStorage.getReference();
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(ITEM_ID_KEY)) {
@@ -121,5 +140,35 @@ public class DetailActivityFragment extends Fragment {
             itemConseilleTitreTextview.setVisibility(View.VISIBLE);
         itemConseilleTextview.setVisibility(View.VISIBLE);
         itemConseilleTextview.setText(santePourTous.getConseille());
+
+
+        // Add programmatically the required layouts
+        for (int i = 0; i < 2; i++) {
+            View view = getNewIngredient("ail", "ail.jpg");
+            mIngredientHorizontalLayout.addView(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
+
+
+    }
+
+    /**
+     * Get new ingedient view to include in the Ingredient list
+     *
+     * @param itemName
+     * @param itemImageName
+     * @return
+     */
+    View getNewIngredient(String itemName, String itemImageName) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View view = inflater.inflate(R.layout.ingredient_tem_layout, mIngredientHorizontalLayout, false);
+        ImageView ingredientImage = view.findViewById(R.id.ingredient_imageview);
+        TextView ingredientText = view.findViewById(R.id.ingredient_name_textview);
+        ingredientText.setText(itemName);
+        GlideApp.with(getActivity())
+                //.using(new FirebaseImageLoader())
+                .load(mStorageRef.child(itemImageName))
+                .placeholder(R.drawable.placeholder_image)
+                .into(ingredientImage);
+        return view;
     }
 }

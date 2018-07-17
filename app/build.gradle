@@ -10,6 +10,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        //multiDexEnabled true
     }
     buildTypes {
         release {
@@ -25,19 +26,37 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile 'com.android.support:support-v4:27.0.2'
-    compile 'com.android.support:design:27.0.2'
+    compile('com.android.support:appcompat-v7:27.0.2') {
+        force = true
+    }
+    compile('com.android.support:support-v4:27.0.2') {
+        force = true
+    }
+    compile('com.android.support:design:27.0.2') {
+        force = true
+    }
     compile 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.google.firebase:firebase-core:16.0.0'
     compile 'com.google.firebase:firebase-database:16.0.1'
-
+    compile 'com.google.firebase:firebase-storage:16.0.1'
+    // FirebaseUI for Cloud Storage
+    compile('com.firebaseui:firebase-ui-storage:4.1.0') {
+        transitive = false
+    }
 
     compile "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     // ViewModel and LiveData
     compile "android.arch.lifecycle:extensions:$lifecycle_version"
+    //compile 'com.android.support:multidex:1.0.3'
+    compile('com.github.bumptech.glide:glide:4.7.1') {
+        exclude group: "com.android.support"
+    }
+    compile 'com.android.support:support-fragment:27.0.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
 
 }
+
 
 apply plugin: 'com.google.gms.google-services'

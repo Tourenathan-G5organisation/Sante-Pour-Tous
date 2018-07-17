@@ -23,7 +23,8 @@
             android:textStyle="bold"
             tools:text="Nettoyage de Froie" />
 
-        <!-- <LinearLayout
+        <LinearLayout
+            android:id="@+id/ingredient_linear_layout"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:orientation="vertical">
@@ -32,7 +33,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_marginTop="30dp"
-                 android:text="Ingrédient"
+                 android:text="@string/ingredient"
                  android:textColor="@color/colorPrimary"
                  android:textSize="27sp" />
 
@@ -41,6 +42,7 @@
                  android:layout_height="wrap_content">
 
                  <LinearLayout
+                     android:id="@+id/ingredient_horizontal_layout"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:gravity="center"
@@ -58,7 +60,7 @@
              </HorizontalScrollView>
 
 
-         </LinearLayout>-->
+        </LinearLayout>
 
 
         <TextView
@@ -77,7 +79,7 @@
             android:layout_marginBottom="50dp"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Ecraser et mélanger le ginga, ail et oignon  et boire demi verre matin (a  jeun) et soir (au coucher)" />
+            tools:text="Ecraser et mélanger le ginger, ail et oignon  et boire demi verre matin (a  jeun) et soir (au coucher)" />
 
 
         <TextView
