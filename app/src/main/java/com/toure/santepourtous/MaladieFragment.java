@@ -26,7 +26,11 @@ import com.toure.santepourtous.data.AppDatabase;
 import com.toure.santepourtous.data.AppExecutors;
 import com.toure.santepourtous.data.SantePourTous;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -86,18 +90,25 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
             public void onChildAdded(@NonNull final DataSnapshot dataSnapshot, @Nullable final String s) {
                 final SantePourTous dbItem = dataSnapshot.getValue(SantePourTous.class);
                 if (dbItem != null) {
-                    dbItem.setFirebaseId(dataSnapshot.getKey());
+                    try {
+                        dbItem.setFirebaseId(dataSnapshot.getKey());
+                        Map<String, String> image = dbItem.getImage();
+                        JSONObject imagesJson = getIngredientImages(image); // extract the ingredient image
+                        dbItem.setImages(imagesJson);
 
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            final long id = mDb.santePourTousDao().insert(dbItem);
-                            if (id <= -1) {
-                                onChildChanged(dataSnapshot, s);
+                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                final long id = mDb.santePourTousDao().insert(dbItem);
+                                if (id <= -1) {
+                                    onChildChanged(dataSnapshot, s);
+                                }
+                                Log.d(LOG_TAC, "New Item inserted");
                             }
-                            Log.d(LOG_TAC, "New Item inserted");
-                        }
-                    });
+                        });
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -114,6 +125,9 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
                         if (santePourTous != null && item != null) {
                             item.setId(santePourTous.getId());
                             item.setFirebaseId(santePourTous.getFirebaseId());
+                            Map<String, String> image = item.getImage();
+                            JSONObject imagesJson = getIngredientImages(image); // extract the ingredient image
+                            item.setImages(imagesJson);
                             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                                 @Override
                                 public void run() {
@@ -161,7 +175,7 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                // onChildChange method is called implicitly when this even occur
             }
 
             @Override
@@ -236,6 +250,30 @@ public class MaladieFragment extends Fragment implements ItemOnclickHandler {
         Intent intentToStartDetailActivity = new Intent(context, DetailActivity.class);
         intentToStartDetailActivity.putExtra(DetailActivityFragment.ITEM_ID_KEY, itemId);
         startActivity(intentToStartDetailActivity);
+    }
+
+    /**
+     * Extract the ingredient name and image from the Map
+     *
+     * @param image Map use to extract the ingredients
+     * @return ingredient JSONObject
+     */
+    JSONObject getIngredientImages(Map<String, String> image) {
+        JSONObject imagesJson = new JSONObject();
+        // extract the ingredient image
+        if (image.size() > 0) {
+            for (Map.Entry<String, String> entry : image.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                try {
+                    imagesJson.put(key, value);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return imagesJson;
     }
 
 }

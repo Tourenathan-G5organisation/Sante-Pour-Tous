@@ -3,6 +3,7 @@ package com.toure.santepourtous.data;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.util.Log;
 
@@ -10,7 +11,8 @@ import android.util.Log;
  * Created by Toure Nathan on 6/30/2018.
  */
 
-@Database(entities = {SantePourTous.class}, version = 2, exportSchema = false)
+@Database(entities = {SantePourTous.class}, version = 3, exportSchema = false)
+@TypeConverters(JSONObjectConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     public static final Object LOCK = new Object();

@@ -24,6 +24,11 @@ import com.toure.santepourtous.data.AppDatabase;
 import com.toure.santepourtous.data.SantePourTous;
 import com.toure.santepourtous.utility.GlideApp;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -120,7 +125,11 @@ public class DetailActivityFragment extends Fragment {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                getActivity().onBackPressed();
+                try {
+                    getActivity().onBackPressed();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -131,7 +140,7 @@ public class DetailActivityFragment extends Fragment {
     /**
      * USe to populate the views depending on the data available
      *
-     * @param santePourTous
+     * @param santePourTous SantePourTous object
      */
     void populateView(SantePourTous santePourTous) {
         itemTitleTextview.setText(santePourTous.getTitre());
@@ -141,32 +150,49 @@ public class DetailActivityFragment extends Fragment {
         itemConseilleTextview.setVisibility(View.VISIBLE);
         itemConseilleTextview.setText(santePourTous.getConseille());
 
+        // Retrieve the ingredient name and images from the Json object
+        JSONObject ingredientImages = santePourTous.getImages();
+        if ((ingredientImages != null) && (ingredientImages.length() > 0)) {
+            mIngredientLinearLayout.setVisibility(View.VISIBLE);
+            Iterator<String> keys = ingredientImages.keys();
+            while (keys.hasNext()) {
+                try {
+                    String itemName = keys.next();
+                    String itemImageName = ingredientImages.getString(itemName);
+                    View view = getNewIngredient(itemName, itemImageName);
+                    mIngredientHorizontalLayout.addView(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
+
+        }
         // Add programmatically the required layouts
-        for (int i = 0; i < 2; i++) {
+        /*for (int i = 0; i < 2; i++) {
             View view = getNewIngredient("ail", "ail.jpg");
             mIngredientHorizontalLayout.addView(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        }
+        }*/
 
 
     }
 
     /**
-     * Get new ingedient view to include in the Ingredient list
+     * Get new ingredient view to include in the Ingredient list
      *
-     * @param itemName
-     * @param itemImageName
-     * @return
+     * @param ingredientName
+     * @param ingredientImageName Image file name( example ail.jpg)
+     * @return view inflated
      */
-    View getNewIngredient(String itemName, String itemImageName) {
+    View getNewIngredient(String ingredientName, String ingredientImageName) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.ingredient_tem_layout, mIngredientHorizontalLayout, false);
         ImageView ingredientImage = view.findViewById(R.id.ingredient_imageview);
         TextView ingredientText = view.findViewById(R.id.ingredient_name_textview);
-        ingredientText.setText(itemName);
+        ingredientText.setText(ingredientName);
         GlideApp.with(getActivity())
                 //.using(new FirebaseImageLoader())
-                .load(mStorageRef.child(itemImageName))
+                .load(mStorageRef.child(ingredientImageName))
                 .placeholder(R.drawable.placeholder_image)
                 .into(ingredientImage);
         return view;

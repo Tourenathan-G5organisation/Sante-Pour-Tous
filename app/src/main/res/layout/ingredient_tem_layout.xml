@@ -10,14 +10,15 @@
         android:id="@+id/ingredient_imageview"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ginger" />
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="3dp"
+        tool:src="@drawable/ginger" />
 
     <TextView
         android:id="@+id/ingredient_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
         tool:text="Ginger" />
 
 </LinearLayout>
