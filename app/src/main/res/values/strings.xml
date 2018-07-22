@@ -13,4 +13,6 @@
     <string name="astuce">Astuce</string>
     <string name="conseil">Consiel</string>
     <string name="ingredient">Ingrédient</string>
+    <string name="share_more_information">Pour plus d\'informations, téléchargez l\'application \"SantePourTous\" sur playstore</string>
+    <string name="share_with">partager avec</string>
 </resources>

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,6 +59,9 @@ public class DetailActivityFragment extends Fragment {
 
     LinearLayout mIngredientLinearLayout;
     LinearLayout mIngredientHorizontalLayout;
+
+    String mTextToShare;
+    ShareActionProvider mShareActionProvider;
 
     public DetailActivityFragment() {
     }
@@ -117,6 +122,11 @@ public class DetailActivityFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.action_share);
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        shareInformation();
 
     }
 
@@ -143,13 +153,16 @@ public class DetailActivityFragment extends Fragment {
      * @param santePourTous SantePourTous object
      */
     void populateView(SantePourTous santePourTous) {
-        itemTitleTextview.setText(santePourTous.getTitre());
-        itemAstuceTextview.setText(santePourTous.getAstuce());
-        if (null != santePourTous.getConseille())
+        itemTitleTextview.setText(santePourTous.getTitre()); mTextToShare = santePourTous.getTitre();
+        itemAstuceTextview.setText(santePourTous.getAstuce()); mTextToShare += "\nAstuce\n"+santePourTous.getAstuce();
+        if (null != santePourTous.getConseille()) {
             itemConseilleTitreTextview.setVisibility(View.VISIBLE);
-        itemConseilleTextview.setVisibility(View.VISIBLE);
-        itemConseilleTextview.setText(santePourTous.getConseille());
+            itemConseilleTextview.setVisibility(View.VISIBLE);
+            itemConseilleTextview.setText(santePourTous.getConseille());
 
+            mTextToShare += "\nConseille\n" + santePourTous.getConseille();
+        }
+        mTextToShare += "\n\n"+ getActivity().getString(R.string.share_more_information);
         // Retrieve the ingredient name and images from the Json object
         JSONObject ingredientImages = santePourTous.getImages();
         if ((ingredientImages != null) && (ingredientImages.length() > 0)) {
@@ -168,11 +181,6 @@ public class DetailActivityFragment extends Fragment {
 
 
         }
-        // Add programmatically the required layouts
-        /*for (int i = 0; i < 2; i++) {
-            View view = getNewIngredient("ail", "ail.jpg");
-            mIngredientHorizontalLayout.addView(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        }*/
 
 
     }
@@ -196,5 +204,19 @@ public class DetailActivityFragment extends Fragment {
                 .placeholder(R.drawable.placeholder_image)
                 .into(ingredientImage);
         return view;
+    }
+
+    /**
+     * Prepares the sharing intent use to share data with other apps
+     */
+    void shareInformation(){
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mTextToShare);
+        shareIntent.setType("text/plain");
+        //startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_with)));
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
     }
 }
