@@ -37,6 +37,7 @@ public class SantePourTous {
     @ColumnInfo(name = "firebase_id")
     private String firebaseId;
 
+    @Ignore
     public SantePourTous() {
     }
 
