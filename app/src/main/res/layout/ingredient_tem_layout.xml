@@ -12,7 +12,8 @@
         android:layout_height="100dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="3dp"
-        tool:src="@drawable/ginger" />
+        tool:src="@drawable/ginger"
+        android:contentDescription="@string/ingredient_content_description"/>
 
     <TextView
         android:id="@+id/ingredient_name_textview"

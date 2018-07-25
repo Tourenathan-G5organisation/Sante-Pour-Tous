@@ -15,4 +15,7 @@
     <string name="ingredient">Ingrédient</string>
     <string name="share_more_information">Pour plus d\'informations, téléchargez l\'application \"SantePourTous\" sur playstore</string>
     <string name="share_with">partager avec</string>
+
+    <string name="adview_banner_unit_id" translatable="false">ca-app-pub-4038752504921943/3712298314</string>
+    <string name="ingredient_content_description">Ingredient</string>
 </resources>

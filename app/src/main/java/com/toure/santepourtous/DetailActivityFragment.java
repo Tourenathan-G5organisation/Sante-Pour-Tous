@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.toure.santepourtous.data.AppDatabase;
@@ -63,6 +65,9 @@ public class DetailActivityFragment extends Fragment {
     String mTextToShare;
     ShareActionProvider mShareActionProvider;
 
+    //Adview reference
+    AdView mAdView;
+
     public DetailActivityFragment() {
     }
 
@@ -84,6 +89,7 @@ public class DetailActivityFragment extends Fragment {
         itemConseilleTitreTextview = view.findViewById(R.id.item_conseille_titre);
         mIngredientLinearLayout = view.findViewById(R.id.ingredient_linear_layout);
         mIngredientHorizontalLayout = view.findViewById(R.id.ingredient_horizontal_layout);
+        mAdView = view.findViewById(R.id.adview);
         return view;
     }
 
@@ -117,6 +123,8 @@ public class DetailActivityFragment extends Fragment {
                 }
             });
         }
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
@@ -188,7 +196,7 @@ public class DetailActivityFragment extends Fragment {
     /**
      * Get new ingredient view to include in the Ingredient list
      *
-     * @param ingredientName
+     * @param ingredientName Name of the natural product recommended
      * @param ingredientImageName Image file name( example ail.jpg)
      * @return view inflated
      */

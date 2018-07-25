@@ -1,104 +1,123 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.toure.santepourtous.DetailActivityFragment">
-
-        <TextView
-            android:id="@+id/item_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            tools:text="Nettoyage de Froie" />
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/ingredient_linear_layout"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="com.toure.santepourtous.DetailActivityFragment">
 
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginTop="30dp"
-                 android:text="@string/ingredient"
-                 android:textColor="@color/colorPrimary"
-                 android:textSize="27sp" />
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                tools:text="Nettoyage de Froie" />
 
-             <HorizontalScrollView
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ingredient_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                 <LinearLayout
-                     android:id="@+id/ingredient_horizontal_layout"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:gravity="center"
-                     android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/ingredient"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="27sp" />
 
-                     <!--<include layout="@layout/ingredient_tem_layout" />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                     <include layout="@layout/ingredient_tem_layout" />
+                    <LinearLayout
+                        android:id="@+id/ingredient_horizontal_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                     <include layout="@layout/ingredient_tem_layout" />
+                        <!--<include layout="@layout/ingredient_tem_layout" />
 
-                     <include layout="@layout/ingredient_tem_layout" />-->
+                        <include layout="@layout/ingredient_tem_layout" />
 
-                 </LinearLayout>
-             </HorizontalScrollView>
+                        <include layout="@layout/ingredient_tem_layout" />
 
+                        <include layout="@layout/ingredient_tem_layout" />-->
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/item_astuce_titre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/astuce"
+                android:textColor="@color/colorPrimary"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/item_astuce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Ecraser et mélanger le ginger, ail et oignon  et boire demi verre matin (a  jeun) et soir (au coucher)" />
+
+
+            <TextView
+                android:id="@+id/item_conseille_titre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/conseil"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/item_conseille"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:visibility="gone"
+                tools:text="Consiel text Consiel text Consiel text Consiel text Consiel text" />
 
         </LinearLayout>
+    </ScrollView>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        android:layout_gravity="center"
+        ads:adUnitId="@string/adview_banner_unit_id">
 
-
-        <TextView
-            android:id="@+id/item_astuce_titre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/astuce"
-            android:textColor="@color/colorPrimary"
-            android:textSize="27sp" />
-
-        <TextView
-            android:id="@+id/item_astuce"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:text="Ecraser et mélanger le ginger, ail et oignon  et boire demi verre matin (a  jeun) et soir (au coucher)" />
-
-
-        <TextView
-            android:id="@+id/item_conseille_titre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/conseil"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/item_conseille"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:visibility="gone"
-            tools:text="Consiel text Consiel text Consiel text Consiel text Consiel text" />
-
-    </LinearLayout>
-</ScrollView>
+    </com.google.android.gms.ads.AdView>
+</LinearLayout>
