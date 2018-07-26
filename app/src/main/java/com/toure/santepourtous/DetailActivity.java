@@ -6,9 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import com.google.android.gms.ads.MobileAds;
-import com.toure.santepourtous.utility.Utility;
-
 public class DetailActivity extends AppCompatActivity {
 
     @Override
@@ -24,8 +21,6 @@ public class DetailActivity extends AppCompatActivity {
         catch (NullPointerException e){
             e.printStackTrace();
         }
-
-        MobileAds.initialize(this, Utility.ADMOB_APP_ID);
     }
 
     @Override

@@ -18,4 +18,6 @@
 
     <string name="adview_banner_unit_id" translatable="false">ca-app-pub-4038752504921943/3712298314</string>
     <string name="ingredient_content_description">Ingredient</string>
+    <string name="etre_en_sante">Etre en Santé est une grace</string>
+    <string name="logo_content_description">app logo</string>
 </resources>

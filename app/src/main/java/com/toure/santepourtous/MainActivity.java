@@ -10,6 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.ads.MobileAds;
+import com.toure.santepourtous.utility.Utility;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG = MainActivity.class.getSimpleName();
@@ -26,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mToolbar = findViewById(R.id.toolbar);
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout = findViewById(R.id.tabs);
 
         setSupportActionBar(mToolbar);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         if (mViewPager != null) {
             mViewPager.setAdapter(mSectionsPagerAdapter);
         }
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(mViewPager);
         }
+        // Initialise AdMob
+        MobileAds.initialize(this, Utility.ADMOB_APP_ID);
 
     }
 
