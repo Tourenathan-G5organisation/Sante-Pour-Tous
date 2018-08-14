@@ -2,11 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.toure.santepourtous.DetailActivity">
-    <item
+    <!--<item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/ic_action_share"
@@ -15,4 +15,12 @@
         app:showAsAction="ifRoom"
         app:actionProviderClass=
             "android.support.v7.widget.ShareActionProvider"/>
+
+    <item
+        android:id="@+id/action_speak"
+        android:icon="@drawable/ic_volume_up_black_32dp"
+        android:orderInCategory="100"
+        android:title="@string/action_speek"
+        app:showAsAction="always" />
+
 </menu>

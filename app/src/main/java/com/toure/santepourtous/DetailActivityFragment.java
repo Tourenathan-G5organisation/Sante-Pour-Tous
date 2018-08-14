@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,6 +49,8 @@ public class DetailActivityFragment extends Fragment {
     // App Database reference
     AppDatabase mDb;
     LiveData<SantePourTous> mSantePourTousItem;
+
+    String textToSpeak;
 
 
     //firebase cloud storage
@@ -68,6 +72,9 @@ public class DetailActivityFragment extends Fragment {
     //Adview reference
     AdView mAdView;
 
+    // text to speech
+    TextToSpeech mTextToSpeech;
+
     public DetailActivityFragment() {
     }
 
@@ -75,7 +82,14 @@ public class DetailActivityFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        mTextToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    mTextToSpeech.setLanguage(Locale.FRANCE);
+                }
+            }
+        });
     }
 
     @Override
@@ -149,6 +163,9 @@ public class DetailActivityFragment extends Fragment {
                     e.printStackTrace();
                 }
                 return true;
+            case R.id.action_speak:
+                speek(textToSpeak);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -162,13 +179,16 @@ public class DetailActivityFragment extends Fragment {
      */
     void populateView(SantePourTous santePourTous) {
         itemTitleTextview.setText(santePourTous.getTitre()); mTextToShare = santePourTous.getTitre();
+        textToSpeak = santePourTous.getTitre();
         itemAstuceTextview.setText(santePourTous.getAstuce()); mTextToShare += "\nAstuce\n"+santePourTous.getAstuce();
+        textToSpeak += "\nAstuce.\n" + santePourTous.getAstuce();
         if (null != santePourTous.getConseille()) {
             itemConseilleTitreTextview.setVisibility(View.VISIBLE);
             itemConseilleTextview.setVisibility(View.VISIBLE);
             itemConseilleTextview.setText(santePourTous.getConseille());
 
             mTextToShare += "\nConseille\n" + santePourTous.getConseille();
+            textToSpeak += "\nConseille\n" + santePourTous.getConseille();
         }
         mTextToShare += "\n\n"+ getActivity().getString(R.string.share_more_information);
         // Retrieve the ingredient name and images from the Json object
@@ -225,6 +245,22 @@ public class DetailActivityFragment extends Fragment {
         //startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_with)));
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    /**
+     * The text to speek
+     */
+    void speek(String toSpeak) {
+        mTextToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mTextToSpeech != null) {
+            mTextToSpeech.stop();
+            mTextToSpeech.shutdown();
         }
     }
 }
