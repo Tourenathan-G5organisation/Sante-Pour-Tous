@@ -206,8 +206,6 @@ public class DetailActivityFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
-
         }
 
 
