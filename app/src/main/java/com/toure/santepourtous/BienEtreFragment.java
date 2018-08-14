@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,7 +26,12 @@ import com.toure.santepourtous.data.AppDatabase;
 import com.toure.santepourtous.data.AppExecutors;
 import com.toure.santepourtous.data.SantePourTous;
 
+import org.json.JSONObject;
+
 import java.util.List;
+import java.util.Map;
+
+import static com.toure.santepourtous.utility.Utility.getIngredientImages;
 
 
 /**
@@ -88,7 +92,9 @@ public class BienEtreFragment extends Fragment implements ItemOnclickHandler {
                 final SantePourTous dbItem = dataSnapshot.getValue(SantePourTous.class);
                 if (dbItem != null) {
                     dbItem.setFirebaseId(dataSnapshot.getKey());
-
+                    Map<String, String> image = dbItem.getImage();
+                    JSONObject imagesJson = getIngredientImages(image); // extract the ingredient image
+                    dbItem.setImages(imagesJson);
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -114,6 +120,9 @@ public class BienEtreFragment extends Fragment implements ItemOnclickHandler {
                         if (santePourTous != null && item != null) {
                             item.setId(santePourTous.getId());
                             item.setFirebaseId(santePourTous.getFirebaseId());
+                            Map<String, String> image = item.getImage();
+                            JSONObject imagesJson = getIngredientImages(image); // extract the ingredient image
+                            item.setImages(imagesJson);
                             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                                 @Override
                                 public void run() {
@@ -195,8 +204,6 @@ public class BienEtreFragment extends Fragment implements ItemOnclickHandler {
         boolean shouldReverseLayout = false;
         mLayoutManager = new LinearLayoutManager(getContext(), recyclerViewOrientation, shouldReverseLayout);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        DividerItemDecoration divider = new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(divider);
           /*
          * Use this setting to improve performance if you know that changes in content do not
          * change the child layout size in the RecyclerView
